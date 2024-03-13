@@ -7,6 +7,9 @@ const app = express();
 const logger = require('morgan');
 const cors = require('cors');
 const multer = require('multer');
+require('dotenv').config()
+
+const host = process.env.IP_LOCAL;
 
 const vehiculosSocket = require('./sockets/vehiculoSockets');
 
@@ -48,7 +51,7 @@ const io = require('socket.io')(server, {
 
 vehiculosSocket(io);
 
-server.listen(port, '172.26.6.212', function () {
+server.listen(port, host, function () {
     console.log('Listening on port ' + port + ' with HTTPS');
 });
 
