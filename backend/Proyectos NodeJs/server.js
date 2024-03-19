@@ -2,7 +2,7 @@ const express = require('express');
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
-
+const passport = require('passport');
 const app = express();
 const logger = require('morgan');
 const cors = require('cors');
@@ -13,6 +13,8 @@ const host = process.env.IP_LOCAL;
 
 const vehiculosSocket = require('./sockets/vehiculoSockets');
 
+const usersRoutes = require('./routes/userRoutes');
+
 const vehiculosRoutes = require('./routes/VehiculosRoutes');
 
 const port = process.env.PORT || 443;
@@ -21,6 +23,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(passport.initialize());
+app.use(passport.session());
+require('./config/passport')(passport);
 app.disable('x-powered-by');
 
 app.set('port', port);
@@ -30,6 +35,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 
 vehiculosRoutes(app, upload);
+usersRoutes(app, upload);
 
 const privateKeyPath = './cert/server.key';
 const certificatePath = './cert/server.cer';

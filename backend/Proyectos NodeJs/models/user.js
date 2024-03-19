@@ -16,20 +16,20 @@ User.create = async (user, result) => {
         phone,
         password,
         created_at,
-        updated_at,
+        updated_at
     )
 VALUES(?, ?, ?, ?, ?, ?, ?)
     `;
     db.query(
         sql,
         [
-           user.email,
-           user.name,
-           user.lastname,
-           user.phone,
-           hash,
-           new Date(),
-           new Date()
+            user.email,
+            user.name,
+            user.lastname,
+            user.phone,
+            hash,
+            new Date(),
+            new Date()
 
         ],
         (err, res) => {
@@ -57,27 +57,27 @@ User.update = (user, result) => {
     WHERE
         id = ?
         `;
-        db.query(
-            sql,
-            [
-               user.name,
-               user.lastname,
-               user.phone,
-               new Date(),
-               user.id
-    
-            ],
-            (err, res) => {
-                if (err) {
-                    console.log('Error:', err);
-                    result(err, null);
-                }
-                else {
-                    console.log('Id del nuevo vehiculo:', user.id);
-                    result(null, user.id);
-                }
+    db.query(
+        sql,
+        [
+            user.name,
+            user.lastname,
+            user.phone,
+            new Date(),
+            user.id
+
+        ],
+        (err, res) => {
+            if (err) {
+                console.log('Error:', err);
+                result(err, null);
             }
-        )
+            else {
+                console.log('Id del nuevo vehiculo:', user.id);
+                result(null, user.id);
+            }
+        }
+    )
 }
 
 
@@ -159,7 +159,7 @@ User.findById = (id, result) => {
 
     db.query(
         sql,
-        [email],
+        [id],
         (err, user) => {
             if (err) {
                 console.log('Error:', err);
@@ -172,3 +172,4 @@ User.findById = (id, result) => {
         }
     )
 }
+module.exports = User;
